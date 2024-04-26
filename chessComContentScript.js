@@ -1,3 +1,11 @@
+//Listen to changes on DOM tree using MutationObserver then 
+let observer = new MutationObserver(async (mutations) => {
+  if (document.querySelector(".game-review-buttons-review")) {
+    await addLichessReviewButton();
+  }
+});
+observer.observe(document, { childList: true, subtree: true });
+
 function waitForElm(selector) {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
@@ -11,6 +19,7 @@ function waitForElm(selector) {
       }
     });
 
+    // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
     observer2.observe(document.body, {
       childList: true,
       subtree: true,
@@ -18,36 +27,35 @@ function waitForElm(selector) {
   });
 }
 
-let startObserve = async () => {
+let addLichessReviewButton = async () => {
   //Sometimes the button is removed on re-render, so checking if the button exists and returning, else re-inject it
 
   if (document.querySelector("#lichessReview")) return;
 
-  //Inject Review on lichess button once Game Review button renders
+  //Inject Review on lichess button
 
-  await waitForElm(".game-review-buttons-review").then((elm) => {
-    //Clone the review button and style it as lichess review
-    let lichessReviewButton = elm.cloneNode(false);
-    lichessReviewButton.id = "lichessReview";
-    lichessReviewButton.innerHTML =
-      "<span style='font-size:36px;font-weight:100;'>&nbsp;&nbsp;&nbsp;&#9822;</span>Review on Lichess";
-    lichessReviewButton.style.padding = "0 12px";
-    lichessReviewButton.style.background = "white";
-    lichessReviewButton.style.display = "flex";
-    lichessReviewButton.style.alignItems = "center";
-    lichessReviewButton.style.background = "white";
-    lichessReviewButton.style.cursor = "pointer";
-    lichessReviewButton.style.fontWeight = "600";
-    lichessReviewButton.style.borderRadius = "4px";
+  //Clone the review button and style it as lichess review
 
-    //Now attach the lichess review button to parent div
-    let parentDiv = elm.parentNode;
-    parentDiv.append(lichessReviewButton);
+  let elm = document.querySelector(".game-review-buttons-review");
+  let lichessReviewButton = elm.cloneNode(false);
+  lichessReviewButton.id = "lichessReview";
+  lichessReviewButton.innerHTML =
+    "<span style='font-size:36px;font-weight:100;'>&nbsp;&nbsp;&nbsp;&#9822;</span>Review on Lichess";
+  lichessReviewButton.style.padding = "0 12px";
+  lichessReviewButton.style.background = "white";
+  lichessReviewButton.style.display = "flex";
+  lichessReviewButton.style.alignItems = "center";
+  lichessReviewButton.style.background = "white";
+  lichessReviewButton.style.cursor = "pointer";
+  lichessReviewButton.style.fontWeight = "600";
+  lichessReviewButton.style.borderRadius = "4px";
 
-    lichessReviewButton.addEventListener("click", async () => {
-      await reviewLichess();
-    });
-    // startObserve();
+  //Now attach the lichess review button to parent div
+  let parentDiv = elm.parentNode;
+  parentDiv.append(lichessReviewButton);
+
+  lichessReviewButton.addEventListener("click", async () => {
+    await reviewLichess();
   });
 };
 
@@ -80,5 +88,3 @@ let reviewLichess = async () => {
     }
   );
 };
-
-startObserve();
