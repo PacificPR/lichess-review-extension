@@ -1,0 +1,17 @@
+{
+  "name": "Lichess Review",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "description": "Analyze chesscom games on lichess",
+  "background": {
+    "service_worker": "./background.js",
+    "type": "module"
+  },
+  "host_permissions": ["https://www.chess.com/*", "https://lichess.org/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://www.chess.com/game/live/*", "https://lichess.org/*"],
+      "js": ["chessComContentScript.js"]
+    }
+  ]
+}
