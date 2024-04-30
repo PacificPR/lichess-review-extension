@@ -1,4 +1,4 @@
-//Listen to changes on DOM tree using MutationObserver then 
+//Listen to changes on DOM tree using MutationObserver then
 let observer = new MutationObserver(async (mutations) => {
   if (document.querySelector(".game-review-buttons-review")) {
     await addLichessReviewButton();
@@ -6,6 +6,7 @@ let observer = new MutationObserver(async (mutations) => {
 });
 observer.observe(document, { childList: true, subtree: true });
 
+//Function which listens to dom changes and looks for a given element and returns that element when found
 function waitForElm(selector) {
   return new Promise((resolve) => {
     if (document.querySelector(selector)) {
@@ -19,7 +20,6 @@ function waitForElm(selector) {
       }
     });
 
-    // If you get "parameter 1 is not of type 'Node'" error, see https://stackoverflow.com/a/77855838/492336
     observer2.observe(document.body, {
       childList: true,
       subtree: true,
@@ -33,7 +33,6 @@ let addLichessReviewButton = async () => {
   if (document.querySelector("#lichessReview")) return;
 
   //Inject Review on lichess button
-
   //Clone the review button and style it as lichess review
 
   let elm = document.querySelector(".game-review-buttons-review");

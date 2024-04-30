@@ -7,6 +7,12 @@
     "service_worker": "./background.js",
     "type": "module"
   },
+  "icons": {
+    "16": "images/logo.png",
+    "32": "images/logo.png",
+    "48": "images/logo.png",
+    "128": "images/logo.png"
+  },
   "host_permissions": ["https://www.chess.com/*", "https://lichess.org/*"],
   "content_scripts": [
     {
