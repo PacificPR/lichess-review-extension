@@ -14,11 +14,7 @@ chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
     body: formBody,
   })
     .then((response) => {
-      console.log(response, response.json());
-      return response;
-    })
-    .then((data) => {
-      sendResponse({ url: data.url });
+      sendResponse({ url: response.url });
     })
     .catch((error) => {
       console.log(error);
